@@ -1,5 +1,9 @@
 package todo
 
+import (
+	"time"
+)
+
 // Storage 接口（数据存储层的最小抽象）
 type Storage interface {
 	Create(t Todo) (Todo, error)
@@ -26,8 +30,9 @@ func NewTodoService(s Storage) *TodoService {
 
 func (ts *TodoService) AddTodo(title string) (Todo, error) {
 	t := Todo{
-		Title: title,
-		// ... 其他初始化
+		Title:       title,
+		Done:        false,
+		CreatedTime: time.Now(),
 	}
 	return ts.store.Create(t)
 }
