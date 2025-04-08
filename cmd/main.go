@@ -20,8 +20,12 @@ func main() {
 	addTitle := addCmd.String("title", "", "Title of the todo")
 
 	// 创建存储和服务
-	memStore := storage.NewMemoryStorage()
-	todoService := todo.NewTodoService(memStore)
+	fs, err := storage.NewFileStorage("todo.json")
+	if err != nil {
+		fmt.Println("Error initializing file storage:", err)
+		os.Exit(1)
+	}
+	todoService := todo.NewTodoService(fs)
 
 	// 解析命令
 	if len(os.Args) < 2 {
